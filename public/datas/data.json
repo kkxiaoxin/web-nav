@@ -1,0 +1,87 @@
+[
+  {
+    "title": "📑markdown",
+    "menu": [
+      {
+        "name": "随便写点",
+        "logo": "./datas/img/essay.jpg",
+        "link": "./datas/markdown/essay/essay.md"
+      }
+    ]
+  },
+  {
+    "title": "🗂️收藏",
+    "menu": [
+      {
+        "name": "皮卡丘的音乐站",
+        "logo": "./datas/img/pikachu.gif",
+        "link": "https://kkxiaoxin.github.io/musicsquare/"
+      },
+      {
+        "name": "4K壁纸-哲风壁纸",
+        "logo": "./datas/img/zhefengbz.ico",
+        "link": "https://haowallpaper.com"
+      },
+      {
+        "name": "Wallspic壁纸",
+        "logo": "./datas/img/wallspic.png",
+        "link": "https://wallspic.com/cn"
+      }
+    ]
+  },
+  {
+    "title": "🛠️工具",
+    "menu": [
+      {
+        "name": "excalidraw在线画图",
+        "logo": "./datas/img/excalidraw.svg",
+        "link": "https://excalidraw.com/"
+      },
+      {
+        "name": "即时工具",
+        "logo": "./datas/img/67tool.png",
+        "link": "https://www.67tool.com/"
+      },
+      {
+        "name": "图片转 ico 图标",
+        "logo": "./datas/img/chuizigj.ico",
+        "link": "https://www.toolhelper.cn/Image/ImageToIco"
+      },
+      {
+        "name": "在线图像工具箱",
+        "logo": "./datas/img/phototool.jpg",
+        "link": "https://phototool.cn/"
+      },
+      {
+        "name": "Mobaxterm Keygen",
+        "logo": "./datas/img/mobax_keygen.png",
+        "link": "https://moba-xterm-keygen.vercel.app/"
+      }
+    ]
+  },
+  {
+    "title": "✈️VPN",
+    "menu": [
+      {
+        "name": "VPN机场汇总导航",
+        "logo": "./datas/img/jichangtuijian.ico",
+        "link": "https://jichangtuijian.uk/"
+      },
+      {
+        "name": "VPN-Clash Verge Rev",
+        "logo": "./datas/img/clashverge.jpg",
+        "link": "https://clash-verge.uk/"
+      },
+      {
+        "name": "VPN-SakuraCat",
+        "logo": "./datas/img/sakuracat.jpg",
+        "link": "https://dokidokiweb.com"
+      },
+      {
+        "name": "VPN-三毛机场",
+        "logo": "",
+        "link": "https://三毛导航.com"
+      }
+    ]
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "name": "web-nav",
+  "version": "1.0.0",
+  "description": "小新导航",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@iconify/react": "^5.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "framer-motion": "^11.18.2",
+    "github-markdown-css": "^5.8.1",
+    "lxgw-wenkai-webfont": "^1.7.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.3",
+    "react-syntax-highlighter": "^16.1.1",
+    "rehype-sanitize": "^6.0.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "@vitejs/plugin-react-swc": "^3.7.2",
+    "rehype-raw": "^7.0.0",
+    "typescript": "^5.7.3",
+    "vite": "^5.4.11",
+    "vite-plugin-zip-pack": "^1.2.4"
+  },
+  "packageManager": "pnpm@9.15.9"
+}

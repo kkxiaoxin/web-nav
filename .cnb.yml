@@ -1,0 +1,74 @@
+cnb-main:
+  push:
+    - runner:
+        cpus: 16
+      services:
+        - docker
+        - git-clone-yyds
+      docker:
+        image: docker.cnb.cool/znb/images/node:22
+        volumes:
+          # 声明式的构建缓存
+          - /data/.cache:copy-on-write
+      stages:
+        - name: 🖨️ 打印环境
+          script: |
+            node -v && npm -v && yarn -v && pnpm -v
+        - name: 📦️ 安装依赖
+          script: |
+            pnpm install
+
+        - name: ⚗️ 编译项目
+          script: |
+            pnpm build
+
+        - name: 🗂️ 备份博客
+          image: tencentcom/ssh
+          # 引用密钥仓库配置文件
+          imports: https://cnb.cool/koala-open/xiaoxin-blog-data/-/blob/main/env.yml
+          settings:
+            host:
+              - 115.190.249.148
+            username: $LOGIN_USER
+            password: $PASSWORD
+            port: 22
+            script:
+              - cd /opt/1panel/www/sites/nav.kkxiaoxin.top/index/xiaoxin
+              - cp -r dist ./bak/"dist-$(date +"%Y-%m-%d_%H-%M-%S-%3N").bak"
+              - rm -rf dist
+              - mkdir dist
+
+        - name: 📑 更新博客
+          image: tencentcom/rsync
+          # 引用密钥仓库配置文件
+          imports: https://cnb.cool/koala-open/xiaoxin-blog-data/-/blob/main/env.yml
+          settings:
+            user: $LOGIN_USER
+            password: $PASSWORD
+            hosts:
+              - 115.190.249.148
+            source: ./dist/
+            target: /opt/1panel/www/sites/nav.kkxiaoxin.top/index/xiaoxin/dist/
+
+        # 发布通知到钉钉
+        - name: 📢 发布通知到钉钉
+          image: tencentcom/dingtalk-bot-msg:latest
+          # 引用密钥仓库配置文件
+          imports: https://cnb.cool/koala-open/xiaoxin-blog-data/-/blob/main/env.yml
+          settings:
+            secret: $dingtalk_secret  # 添加钉钉机器人的签名密钥
+            webhook: $dingtalk_webhook  # 填写钉钉机器人的Webhook地址变量
+            at: "13048667170" # 多个用分号(;)分隔
+            isAtAll: false
+            debug: true # 新增: 是否启用调试模式
+            c_type: "markdown" # 支持: text, markdown, link, actionCard, multiActionCard, feedCard
+            content: |
+              > **🎉 小新导航 又一次发布成功啦！**   
+              > **构建时间:** $CUSTOM_ENV_DATE_INFO          
+              > **构建id:** $CNB_BUILD_ID  
+              > **提交id:** $CNB_COMMIT_SHORT            
+              > **构建分支:** $CNB_BRANCH            
+              > **提交信息:** $CNB_COMMIT_MESSAGE_TITLE            
+              > **提交者:** $CNB_COMMITTER            
+              > **仓库地址:** [$CNB_REPO_URL_HTTPS]($CNB_REPO_URL_HTTPS)            
+              > **我的网站:** [https://nav.kkxiaoxin.top](https://nav.kkxiaoxin.top/)

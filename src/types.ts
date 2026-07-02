@@ -2,6 +2,7 @@ export interface NavCard {
   name: string
   logo: string
   link: string
+  desc?: string
 }
 
 export interface NavCategory {

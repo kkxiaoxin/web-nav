@@ -5,7 +5,8 @@
       {
         "name": "随便写点",
         "logo": "./datas/img/essay.jpg",
-        "link": "./datas/markdown/essay/essay.md"
+        "link": "./datas/markdown/essay/essay.md",
+        "desc": "一个markdown文档，随便记录点啥放这儿✨"
       }
     ]
   },
@@ -15,17 +16,20 @@
       {
         "name": "皮卡丘的音乐站",
         "logo": "./datas/img/pikachu.gif",
-        "link": "https://kkxiaoxin.github.io/musicsquare/"
+        "link": "https://kkxiaoxin.github.io/musicsquare/",
+        "desc": "一个在线听歌的网站，支持歌曲下载、收费音乐播放，包含不同平台音源🎵"
       },
       {
         "name": "4K壁纸-哲风壁纸",
         "logo": "./datas/img/zhefengbz.ico",
-        "link": "https://haowallpaper.com"
+        "link": "https://haowallpaper.com",
+        "desc": "精选高清4K桌面壁纸资源站🖼️"
       },
       {
         "name": "Wallspic壁纸",
         "logo": "./datas/img/wallspic.png",
-        "link": "https://wallspic.com/cn"
+        "link": "https://wallspic.com/cn",
+        "desc": "多风格高清壁纸浏览图库合集🌄"
       }
     ]
   },
@@ -35,27 +39,32 @@
       {
         "name": "excalidraw在线画图",
         "logo": "./datas/img/excalidraw.svg",
-        "link": "https://excalidraw.com/"
+        "link": "https://excalidraw.com/",
+        "desc": "手绘风协作在线白板绘图工具✏️"
       },
       {
         "name": "即时工具",
         "logo": "./datas/img/67tool.png",
-        "link": "https://www.67tool.com/"
+        "link": "https://www.67tool.com/",
+        "desc": "聚合常用实用在线工具箱集合🧰"
       },
       {
         "name": "图片转 ico 图标",
         "logo": "./datas/img/chuizigj.ico",
-        "link": "https://www.toolhelper.cn/Image/ImageToIco"
+        "link": "https://www.toolhelper.cn/Image/ImageToIco",
+        "desc": "图片快速转换ico图标工具🖼️"
       },
       {
         "name": "在线图像工具箱",
         "logo": "./datas/img/phototool.jpg",
-        "link": "https://phototool.cn/"
+        "link": "https://phototool.cn/",
+        "desc": "在线图片编辑处理与转换工具箱🛠️"
       },
       {
         "name": "Mobaxterm Keygen",
         "logo": "./datas/img/mobax_keygen.png",
-        "link": "https://moba-xterm-keygen.vercel.app/"
+        "link": "https://moba-xterm-keygen.vercel.app/",
+        "desc": "MobaXterm密钥生成工具，可去除专业版功能限制、人数限制🔑"
       }
     ]
   },
@@ -65,22 +74,26 @@
       {
         "name": "VPN机场汇总导航",
         "logo": "./datas/img/jichangtuijian.ico",
-        "link": "https://jichangtuijian.uk/"
+        "link": "https://jichangtuijian.uk/",
+        "desc": "机场节点推荐与导航汇总入口✈️"
       },
       {
         "name": "VPN-Clash Verge Rev",
         "logo": "./datas/img/clashverge.jpg",
-        "link": "https://clash-verge.uk/"
+        "link": "https://clash-verge.uk/",
+        "desc": "Clash Verge客户端下载⚡"
       },
       {
         "name": "VPN-SakuraCat",
         "logo": "./datas/img/sakuracat.jpg",
-        "link": "https://dokidokiweb.com"
+        "link": "https://dokidokiweb.com",
+        "desc": "SakuraCat机场节点服务🌸"
       },
       {
         "name": "VPN-三毛机场",
         "logo": "",
-        "link": "https://三毛导航.com"
+        "link": "https://三毛导航.com",
+        "desc": "三毛机场节点服务与导航入口🚀"
       }
     ]
   }

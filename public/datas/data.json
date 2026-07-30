@@ -78,6 +78,12 @@
         "desc": "机场节点推荐与导航汇总入口✈️"
       },
       {
+        "name": "VPN-自由猫",
+        "logo": "./datas/img/freecat.ico",
+        "link": "https://freecat.cloud",
+        "desc": ""
+      },
+      {
         "name": "VPN-Clash Verge Rev",
         "logo": "./datas/img/clashverge.jpg",
         "link": "https://clash-verge.uk/",

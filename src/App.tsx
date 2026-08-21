@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
+import type { CSSProperties } from 'react'
 import animalsSrc from './assets/img/animals.png'
+import { SiteBackdrop } from './components/SiteBackdrop'
 import { Home } from './pages/Home'
 import { MarkdownViewer } from './pages/MarkdownViewer'
-import { getAppPath, isWithinBasePath, stripBasePath } from './utils/prefix'
+import { getAppPath, getPublicFilePath, isWithinBasePath, stripBasePath } from './utils/prefix'
 
 function withThemeTransition(callback: () => void) {
   const doc = document.documentElement
@@ -34,12 +36,29 @@ export function App() {
     window.localStorage.setItem('theme', isDark ? 'dark' : 'light')
   }, [isDark])
 
+  useEffect(() => {
+    const backdropImage = getPublicFilePath('/background.webp')
+    document.documentElement.style.setProperty('--backdrop-image', `url("${backdropImage}")`)
+  }, [])
+
+  const appStyle = useMemo(
+    () =>
+      ({
+        '--background': 'var(--page-bg)',
+        '--color-accent': 'var(--accent-color)',
+        '--color-foreground': 'var(--text-primary)',
+        '--border': 'var(--card-border)'
+      }) as CSSProperties,
+    []
+  )
+
   function toggleTheme() {
     withThemeTransition(() => setIsDark((value) => !value))
   }
 
   return (
-    <div id="app" className={isDark ? 'app--dark' : ''}>
+    <div id="app" className={isDark ? 'app--dark' : ''} style={appStyle}>
+      <SiteBackdrop />
       {route.name === 'markdown' ? (
         <MarkdownViewer path={route.path} />
       ) : route.name === 'home' ? (

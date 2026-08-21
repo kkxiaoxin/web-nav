@@ -13,8 +13,6 @@ import { getPublicFilePath } from '../utils/prefix'
 
 import { getLatencyTier, measureLinkLatency, resolvePingUrl } from '../utils/siteLatency'
 
-import { getDefaultPreviewUrl, resolveSitePreviewUrl } from '../utils/sitePreview'
-
 
 
 interface CardItemProps {
@@ -153,8 +151,6 @@ export function CardItem({ card, onClick }: CardItemProps) {
 
   const [logoLoadFailed, setLogoLoadFailed] = useState(false)
 
-  const [previewLoadFailed, setPreviewLoadFailed] = useState(false)
-
   const [linkCopied, setLinkCopied] = useState(false)
 
   const [detailsOpen, setDetailsOpen] = useState(false)
@@ -168,22 +164,6 @@ export function CardItem({ card, onClick }: CardItemProps) {
   const [latencyMs, setLatencyMs] = useState<number | null>(null)
 
   const isDialogOpen = detailsOpen || titleDialogOpen
-
-  const defaultPreviewUrl = useMemo(() => getDefaultPreviewUrl(), [])
-
-  const previewCandidates = useMemo(() => {
-
-    const remote = resolveSitePreviewUrl(card.link)
-
-    return remote ? [remote, defaultPreviewUrl] : [defaultPreviewUrl]
-
-  }, [card.link, defaultPreviewUrl])
-
-  const [previewIndex, setPreviewIndex] = useState(0)
-
-  const previewSrc = previewCandidates[Math.min(previewIndex, previewCandidates.length - 1)]
-
-
 
   const cardId = useMemo(() => {
 
@@ -260,16 +240,6 @@ export function CardItem({ card, onClick }: CardItemProps) {
     return /[a-z]/.test(ch) ? ch.toUpperCase() : ch
 
   }, [card.name])
-
-
-
-  useEffect(() => {
-
-    setPreviewIndex(0)
-
-    setPreviewLoadFailed(false)
-
-  }, [card.link, previewCandidates])
 
 
 
@@ -468,22 +438,6 @@ export function CardItem({ card, onClick }: CardItemProps) {
     event.currentTarget.style.setProperty('--mouse-x', `${x}px`)
 
     event.currentTarget.style.setProperty('--mouse-y', `${y}px`)
-
-  }
-
-
-
-  function handlePreviewError() {
-
-    if (previewIndex < previewCandidates.length - 1) {
-
-      setPreviewIndex((value) => value + 1)
-
-      return
-
-    }
-
-    setPreviewLoadFailed(true)
 
   }
 
@@ -695,7 +649,7 @@ export function CardItem({ card, onClick }: CardItemProps) {
 
       ref={rootRef}
 
-      className={`card-item friend-card app-card${detailsOpen ? ' is-details-open' : ''}${titleDialogOpen ? ' is-title-dialog-open' : ''}${previewLoadFailed ? ' friend-card--preview-fallback' : ''}`}
+      className={`card-item friend-card app-card${detailsOpen ? ' is-details-open' : ''}${titleDialogOpen ? ' is-title-dialog-open' : ''}`}
 
       role="button"
 
@@ -718,12 +672,6 @@ export function CardItem({ card, onClick }: CardItemProps) {
         {latencyStatusLabel}
 
       </span>
-
-      <div className="friend-siteshot" aria-hidden="true">
-
-        <img src={previewSrc} alt="" loading="lazy" decoding="async" onError={handlePreviewError} />
-
-      </div>
 
       <div className="friend-body">
 

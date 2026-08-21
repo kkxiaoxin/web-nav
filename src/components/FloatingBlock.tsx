@@ -1,7 +1,6 @@
 import { Icon } from '@iconify/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CSSProperties, PointerEvent, useEffect, useMemo, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
 import { FAB_ICONS } from '../config/fabIcons'
 
 const savedPositions: Record<string, { xRatio: number; yRatio: number }> = {}
@@ -316,5 +315,5 @@ export function FloatingBlock({
     </div>
   )
 
-  return createPortal(body, document.body)
+  return body
 }

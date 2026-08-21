@@ -12,10 +12,16 @@ interface SiteHeaderProps {
 }
 
 export function SiteHeader({ isDark, navEnabled = true, onOpenSearch, onToggleTheme, onOpenNav }: SiteHeaderProps) {
+  function releaseNavButtonFocus(event: React.PointerEvent<HTMLButtonElement>) {
+    event.currentTarget.blur()
+  }
+
   function handleNavClick(action: () => void) {
     return (event: React.MouseEvent<HTMLButtonElement>) => {
+      const button = event.currentTarget
       action()
-      event.currentTarget.blur()
+      button.blur()
+      window.requestAnimationFrame(() => button.blur())
     }
   }
 
@@ -32,11 +38,25 @@ export function SiteHeader({ isDark, navEnabled = true, onOpenSearch, onToggleTh
             </div>
 
             <nav className="header-floating-right" aria-label="站点操作">
-              <button type="button" className="nav-icon-btn" aria-label="搜索" title="搜索" onClick={handleNavClick(onOpenSearch)}>
+              <button
+                type="button"
+                className="nav-icon-btn"
+                aria-label="搜索"
+                title="搜索"
+                onClick={handleNavClick(onOpenSearch)}
+                onPointerUp={releaseNavButtonFocus}
+              >
                 <Icon icon={FAB_ICONS.search} className="nav-icon-btn__icon" />
               </button>
               {navEnabled && onOpenNav && (
-                <button type="button" className="nav-icon-btn nav-icon-btn--nav" aria-label="目录导航" title="目录导航" onClick={handleNavClick(onOpenNav)}>
+                <button
+                  type="button"
+                  className="nav-icon-btn nav-icon-btn--nav"
+                  aria-label="目录导航"
+                  title="目录导航"
+                  onClick={handleNavClick(onOpenNav)}
+                  onPointerUp={releaseNavButtonFocus}
+                >
                   <Icon icon={FAB_ICONS.nav} className="nav-icon-btn__icon" />
                 </button>
               )}
@@ -46,6 +66,7 @@ export function SiteHeader({ isDark, navEnabled = true, onOpenSearch, onToggleTh
                 aria-label={isDark ? '切换到亮色模式' : '切换到暗色模式'}
                 title={isDark ? '切换到亮色模式' : '切换到暗色模式'}
                 onClick={handleNavClick(onToggleTheme)}
+                onPointerUp={releaseNavButtonFocus}
               >
                 <Icon icon={isDark ? FAB_ICONS.themeLight : FAB_ICONS.themeDark} className="nav-icon-btn__icon" />
               </button>

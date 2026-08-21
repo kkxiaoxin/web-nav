@@ -109,14 +109,14 @@ html,
   --doc-code-shadow: 0 1px 3px rgba(31, 38, 135, 0.04), 0 8px 18px rgba(31, 38, 135, 0.065);
   --doc-table-head-bg: rgba(255, 255, 255, 0.5);
   --doc-table-row-hover: rgba(255, 255, 255, 0.35);
-  --card-bg: rgba(240, 245, 252, 0.68);
-  --card-border: rgba(210, 222, 240, 0.75);
+  --card-bg: rgba(228, 237, 252, 0.74);
+  --card-border: rgba(198, 214, 238, 0.78);
   --card-shadow: 0 2px 8px rgba(31, 38, 135, 0.06), 0 8px 28px rgba(31, 38, 135, 0.1);
   --card-hover-shadow: 0 4px 12px rgba(31, 38, 135, 0.08), 0 14px 44px rgba(31, 38, 135, 0.14);
   --card-hover-border: rgba(61, 111, 212, 0.28);
   --card-shine-bg: linear-gradient(120deg, rgba(255,255,255,0.28) 0%, transparent 42%, transparent 58%, rgba(255,255,255,0.06) 100%);
   --card-shine-hover-opacity: 1;
-  --card-logo-bg: rgba(245, 248, 253, 0.78);
+  --card-logo-bg: rgba(238, 244, 252, 0.82);
   --card-logo-border: rgba(61, 111, 212, 0.08);
   --card-link-type-color: #5b8def;
   --card-title-hover-color: #3369bf;
@@ -491,11 +491,17 @@ html.theme-dark .site-backdrop,
   height: 1.15rem;
 }
 
-.nav-icon-btn:hover,
 .nav-icon-btn:focus-visible {
-  color: var(--accent-color);
-  background: color-mix(in srgb, var(--accent-color) 10%, transparent);
-  transform: translateY(-1px);
+  outline: 2px solid color-mix(in srgb, var(--accent-color) 45%, transparent);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-icon-btn:hover {
+    color: var(--accent-color);
+    background: color-mix(in srgb, var(--accent-color) 10%, transparent);
+    transform: translateY(-1px);
+  }
 }
 
 .nav-icon-btn:focus {
@@ -509,17 +515,14 @@ html.theme-dark .site-backdrop,
 }
 
 @media (hover: none), (pointer: coarse) {
+  .nav-icon-btn:hover,
   .nav-icon-btn:focus,
-  .nav-icon-btn:focus-visible {
+  .nav-icon-btn:focus-visible,
+  .nav-icon-btn:active {
     color: color-mix(in srgb, var(--header-text) 82%, transparent);
     background: transparent;
     transform: none;
-  }
-
-  .nav-icon-btn:active {
-    color: var(--accent-color);
-    background: color-mix(in srgb, var(--accent-color) 10%, transparent);
-    transform: none;
+    outline: none;
   }
 }
 
@@ -873,6 +876,7 @@ html.theme-dark .site-backdrop,
   flex-direction: column;
   gap: 0.5rem;
   margin-bottom: 1rem;
+  margin-top: 0.5rem;
 }
 
 .friend-group-meta {
@@ -1004,6 +1008,7 @@ html.theme-dark .site-backdrop,
 .card-nav-anchor {
   min-width: 0;
   display: flex;
+  padding-top: 0.55rem;
   animation: card-stagger 0.5s ease both;
   animation-delay: calc(var(--stagger, 0) * 0.06s + 0.1s);
 }
@@ -1057,9 +1062,9 @@ html.theme-dark .site-backdrop,
 .friend-status-tag {
   --friend-status-color: var(--accent-color);
   position: absolute;
-  top: 0.55rem;
-  right: 0.55rem;
-  z-index: 4;
+  top: 0;
+  right: 0.65rem;
+  z-index: 5;
   display: inline-flex;
   align-items: center;
   gap: 0.32rem;
@@ -1078,6 +1083,7 @@ html.theme-dark .site-backdrop,
   line-height: 1;
   white-space: nowrap;
   pointer-events: none;
+  transform: translateY(-50%);
   backdrop-filter: blur(10px) saturate(1.08);
   -webkit-backdrop-filter: blur(10px) saturate(1.08);
 }
@@ -1111,50 +1117,29 @@ html.theme-dark .friend-status-tag--down,
   animation: latency-label-pulse 1.5s ease-in-out infinite;
 }
 
-.friend-siteshot {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.friend-siteshot img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-  transform-origin: top;
-  backface-visibility: hidden;
-  transition: transform 0.4s ease;
-}
-
-.friend-siteshot::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(to bottom, transparent 33%, var(--background) 66%);
-}
-
 .friend-body {
   position: relative;
   z-index: 1;
-  margin-top: 5.5rem;
-  padding: 0.78rem;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: 0.85rem 0.9rem;
 }
 
 .friend-main {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.45rem;
 }
 
 .friend-avatar-wrap {
   position: relative;
   flex-shrink: 0;
-  width: 2.35rem;
-  height: 2.35rem;
+  width: 3rem;
+  height: 3rem;
   overflow: hidden;
   border-radius: 999px;
 }
@@ -1202,19 +1187,18 @@ html.theme-dark .friend-status-tag--down,
 }
 
 .friend-desc {
-  display: -webkit-box;
   overflow: hidden;
-  height: 2.90625rem;
   margin: 0;
   color: color-mix(in srgb, var(--text-primary) 78%, transparent);
   font-size: 0.9375rem;
   line-height: 1.55;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .card-item.friend-card {
-  min-height: 11.5rem;
+  overflow: visible;
+  min-height: 5.75rem;
 }
 
 .card-latency-status {
@@ -1292,20 +1276,12 @@ body.card-dialog-open .page-hero {
     opacity: 1;
   }
 
-  .card-item:hover .friend-siteshot img {
-    transform: scale(1.06);
-  }
-
   .card-item:hover .friend-avatar {
     border-color: color-mix(in srgb, var(--accent-color) 50%, transparent);
   }
 
   .card-item:hover .friend-name {
     color: var(--card-title-hover-color, var(--accent-color));
-  }
-
-  .card-item:hover .friend-status-tag {
-    transform: translateY(-1px);
   }
 }
 
@@ -1970,7 +1946,7 @@ html.theme-dark .search-engine-option:hover,
 
 .floating-block-anchor {
   position: fixed;
-  z-index: 1200;
+  z-index: 1100;
   overflow: visible;
   touch-action: none;
   pointer-events: none;
@@ -1981,7 +1957,7 @@ html.theme-dark .search-engine-option:hover,
 .floating-block-anchor.is-interacting,
 .floating-block-anchor.is-expanded,
 .floating-block-anchor.is-dragging {
-  z-index: 1240;
+  z-index: 1120;
 }
 
 .floating-block-anchor.is-expanded:not(.is-dragging) {
@@ -2916,7 +2892,6 @@ html:not(.theme-dark) .markdown-body .code-highlighter .hljs-title,
     animation: none;
   }
 
-  .friend-siteshot img,
   .card-item,
   .friend-card-glow,
   .friend-status-tag--pulse {
@@ -3215,7 +3190,7 @@ html:not(.theme-dark) .markdown-body .code-highlighter .hljs-title,
   }
 
   .card-item {
-    padding: 0.75rem 0.8rem;
+    padding: 0.3rem 0.3rem;
     min-height: 5rem;
     border-radius: 0.8rem;
   }

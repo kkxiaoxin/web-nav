@@ -432,12 +432,6 @@ html.theme-dark .site-backdrop,
   margin-left: auto;
 }
 
-a.header-brand {
-  color: inherit;
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
 .main-header .logo,
 .site-top-header .logo {
   max-width: min(28ch, 46vw);
@@ -2956,7 +2950,7 @@ html:not(.theme-dark) .markdown-body .code-highlighter .hljs-title,
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 1251;
+    z-index: 1301;
     display: block;
     width: min(320px, 86vw);
     height: 100vh;
@@ -3012,14 +3006,22 @@ html:not(.theme-dark) .markdown-body .code-highlighter .hljs-title,
   .mobile-outline-mask {
     position: fixed;
     inset: 0;
-    z-index: 1250;
+    z-index: 1300;
     display: block;
     background: color-mix(in srgb, var(--page-bg, #141c2a) 52%, transparent);
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    pointer-events: auto;
   }
 
   .mobile-outline-close {
+    position: relative;
+    z-index: 1;
     display: inline-flex;
+    flex-basis: 44px;
+    width: 44px;
+    height: 44px;
+    touch-action: manipulation;
   }
 }
 

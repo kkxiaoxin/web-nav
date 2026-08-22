@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react'
 import { FAB_ICONS } from '../config/fabIcons'
 import { APP_CONFIG } from '../config/app'
-import { getAppPath, getPublicFilePath } from '../utils/prefix'
+import { getPublicFilePath } from '../utils/prefix'
 
 interface SiteHeaderProps {
   title?: string
@@ -40,10 +40,10 @@ export function SiteHeader({
   return (
     <header id="main-header" className="site-top-header">
       <div className="header-glass top-nav-wrap">
-        <a className="header-brand" href={getAppPath('/')} aria-label={APP_CONFIG.SITE_NAME}>
+        <div className="header-brand">
           <img className="header-logo" src={getPublicFilePath(APP_CONFIG.SITE_LOGO)} alt="" width="32" height="32" />
           <span className="logo">{title ?? APP_CONFIG.SITE_NAME}</span>
-        </a>
+        </div>
 
         <div className="header-nav" role="group" aria-label="站点操作">
           {showSearch && (

@@ -1,4 +1,5 @@
 import { ComponentProps, useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import ReactMarkdown from 'react-markdown'
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
 import bash from 'react-syntax-highlighter/dist/esm/languages/hljs/bash'
@@ -290,10 +291,16 @@ export function MarkdownViewer({ path, isDark, onToggleTheme }: MarkdownViewerPr
         </main>
 
         {!loading && !error && headings.length > 0 && !mobileOutlineOpen && <MobileOutlineButton positionKey="markdown" onOpen={() => setMobileOutlineOpen(true)} />}
-        {mobileOutlineOpen && <div className="mobile-outline-mask" onClick={() => setMobileOutlineOpen(false)}></div>}
         <div className="outline-anchor">
-          <MarkdownOutline headings={headings} activeHeadingId={activeHeadingId} open={mobileOutlineOpen} onClose={() => setMobileOutlineOpen(false)} onSelect={scrollToHeading} />
+          {!mobileOutlineOpen && <MarkdownOutline headings={headings} activeHeadingId={activeHeadingId} open={false} onClose={() => setMobileOutlineOpen(false)} onSelect={scrollToHeading} />}
         </div>
+        {mobileOutlineOpen && createPortal(
+          <>
+            <div className="mobile-outline-mask" onClick={() => setMobileOutlineOpen(false)}></div>
+            <MarkdownOutline headings={headings} activeHeadingId={activeHeadingId} open onClose={() => setMobileOutlineOpen(false)} onSelect={scrollToHeading} />
+          </>,
+          document.body,
+        )}
       </div>
     </div>
   )

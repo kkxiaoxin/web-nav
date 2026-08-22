@@ -1,7 +1,6 @@
 import { Icon } from '@iconify/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CSSProperties, PointerEvent, useEffect, useMemo, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
 import { FAB_ICONS } from '../config/fabIcons'
 
 const savedPositions: Record<string, { xRatio: number; yRatio: number }> = {}
@@ -24,6 +23,8 @@ const ACTION_CARDINAL = [
 interface FloatingBlockProps {
   isDark: boolean
   navEnabled?: boolean
+  themeEnabled?: boolean
+  searchEnabled?: boolean
   positionKey?: string
   onToggleTheme: () => void
   onOpenSearch: () => void
@@ -59,7 +60,16 @@ function denormalizePosition(ratio: { xRatio: number; yRatio: number }, bounds: 
   }
 }
 
-export function FloatingBlock({ isDark, navEnabled = true, positionKey = 'home-floating-br2', onToggleTheme, onOpenSearch, onOpenNav }: FloatingBlockProps) {
+export function FloatingBlock({
+  isDark,
+  navEnabled = true,
+  themeEnabled = true,
+  searchEnabled = true,
+  positionKey = 'home-floating-br2',
+  onToggleTheme,
+  onOpenSearch,
+  onOpenNav
+}: FloatingBlockProps) {
   const anchorRef = useRef<HTMLDivElement>(null)
   const blockClickRef = useRef(false)
   const [isExpanded, setIsExpanded] = useState(false)
@@ -99,14 +109,17 @@ export function FloatingBlock({ isDark, navEnabled = true, positionKey = 'home-f
   }
 
   const actionButtons = useMemo(() => {
-    const items = [
-      { id: 'theme', icon: isDark ? FAB_ICONS.themeLight : FAB_ICONS.themeDark, label: isDark ? '切换到亮色模式' : '切换到暗色模式', handler: onToggleTheme },
-      { id: 'search', icon: FAB_ICONS.search, label: '搜索', handler: onOpenSearch }
-    ]
+    const items: Array<{ id: string; icon: string; label: string; handler: () => void }> = []
+    if (themeEnabled) {
+      items.push({ id: 'theme', icon: isDark ? FAB_ICONS.themeLight : FAB_ICONS.themeDark, label: isDark ? '切换到亮色模式' : '切换到暗色模式', handler: onToggleTheme })
+    }
+    if (searchEnabled) {
+      items.push({ id: 'search', icon: FAB_ICONS.search, label: '搜索', handler: onOpenSearch })
+    }
     if (navEnabled) items.push({ id: 'nav', icon: FAB_ICONS.nav, label: '目录导航', handler: onOpenNav })
     items.push({ id: 'top', icon: FAB_ICONS.top, label: '返回顶部', handler: () => window.scrollTo({ top: 0, behavior: 'smooth' }) })
     return items.map((item, index) => ({ ...item, ...getItemPosition(index, items.length) }))
-  }, [isDark, navEnabled, onOpenNav, onOpenSearch, onToggleTheme])
+  }, [isDark, navEnabled, searchEnabled, themeEnabled, onOpenNav, onOpenSearch, onToggleTheme])
 
   function ensureActionsVisible(pixelPos: { x: number; y: number }) {
     const center = { x: pixelPos.x + FAB_SIZE / 2, y: pixelPos.y + FAB_SIZE / 2 }
@@ -302,5 +315,5 @@ export function FloatingBlock({ isDark, navEnabled = true, positionKey = 'home-f
     </div>
   )
 
-  return createPortal(body, document.body)
+  return body
 }

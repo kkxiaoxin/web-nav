@@ -72,6 +72,12 @@
     "title": "✈️VPN",
     "menu": [
       {
+        "name": "VPN-三毛机场",
+        "logo": "./datas/img/sanmao.ico",
+        "link": "https://三毛导航.com",
+        "desc": "三毛机场节点服务与导航入口🚀"
+      },
+      {
         "name": "VPN机场汇总导航",
         "logo": "./datas/img/jichangtuijian.ico",
         "link": "https://jichangtuijian.uk/",
@@ -94,12 +100,6 @@
         "logo": "./datas/img/sakuracat.jpg",
         "link": "https://dokidokiweb.com",
         "desc": "SakuraCat机场节点服务🌸"
-      },
-      {
-        "name": "VPN-三毛机场",
-        "logo": "",
-        "link": "https://三毛导航.com",
-        "desc": "三毛机场节点服务与导航入口🚀"
       }
     ]
   }

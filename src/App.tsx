@@ -37,7 +37,7 @@ export function App() {
   }, [isDark])
 
   useEffect(() => {
-    const backdropImage = getPublicFilePath('/background.webp')
+    const backdropImage = getPublicFilePath('/background.jpg')
     document.documentElement.style.setProperty('--backdrop-image', `url("${backdropImage}")`)
   }, [])
 
@@ -60,7 +60,7 @@ export function App() {
     <div id="app" className={isDark ? 'app--dark' : ''} style={appStyle}>
       <SiteBackdrop />
       {route.name === 'markdown' ? (
-        <MarkdownViewer path={route.path} />
+        <MarkdownViewer path={route.path} isDark={isDark} onToggleTheme={toggleTheme} />
       ) : route.name === 'home' ? (
         <Home isDark={isDark} onToggleTheme={toggleTheme} />
       ) : (

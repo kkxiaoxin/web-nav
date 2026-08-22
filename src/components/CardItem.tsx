@@ -191,7 +191,7 @@ export function CardItem({ card, onClick }: CardItemProps) {
 
   const displayLink = card.link.replace(/^https?:\/\//i, '').replace(/^\.\/?/, '')
 
-  const cardDesc = String(card.desc ?? '').trim() || '一个神秘的网站等待您的探索🚀'
+  const cardDesc = String(card.desc ?? '').trim() || '前方一个神秘的网站等待您的探索🚀'
 
   const latencyStatusClass = getLatencyStatusClass(latencyTier, latencyState)
 

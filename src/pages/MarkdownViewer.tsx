@@ -18,15 +18,17 @@ import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
-import { APP_CONFIG } from '../config/app'
 import { MobileOutlineButton } from '../components/MobileOutlineButton'
 import { MarkdownOutline } from '../components/OutlineList'
+import { SiteHeader } from '../components/SiteHeader'
 import type { HeadingItem } from '../types'
 import { copyText } from '../utils/clipboard'
 import { getPublicFilePath, isExternalUrl } from '../utils/prefix'
 
 interface MarkdownViewerProps {
   path: string
+  isDark: boolean
+  onToggleTheme: () => void
 }
 
 SyntaxHighlighter.registerLanguage('bash', bash)
@@ -105,14 +107,13 @@ function CodeCopyButton({ codeText }: { codeText: string }) {
   )
 }
 
-export function MarkdownViewer({ path }: MarkdownViewerProps) {
+export function MarkdownViewer({ path, isDark, onToggleTheme }: MarkdownViewerProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [markdownContent, setMarkdownContent] = useState('')
   const [headings, setHeadings] = useState<HeadingItem[]>([])
   const [activeHeadingId, setActiveHeadingId] = useState('')
   const [mobileOutlineOpen, setMobileOutlineOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
   const articleRef = useRef<HTMLElement>(null)
   const markdownPath = useMemo(() => {
     try {
@@ -179,7 +180,6 @@ export function MarkdownViewer({ path }: MarkdownViewerProps) {
 
   useEffect(() => {
     const onWindowScroll = () => {
-      setIsScrolled(window.scrollY > 0)
       if (!headings.length) return
       if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50) {
         setActiveHeadingId(headings[headings.length - 1].id)
@@ -256,14 +256,13 @@ export function MarkdownViewer({ path }: MarkdownViewerProps) {
 
   return (
     <div className={`vitepress-container${mobileOutlineOpen ? ' is-outline-open' : ''}`}>
-      <header className={`vitepress-header${isScrolled ? ' vitepress-header--scrolled' : ''}`}>
-        <div className="header-glass">
-          <div className="header-brand">
-            <img className="header-logo" src={getPublicFilePath(APP_CONFIG.SITE_LOGO)} alt={docTitle} width="32" height="32" />
-            <div className="logo">{docTitle}</div>
-          </div>
-        </div>
-      </header>
+      <SiteHeader
+        title={docTitle}
+        isDark={isDark}
+        showSearch={false}
+        showNav={false}
+        onToggleTheme={onToggleTheme}
+      />
 
       <div className="vitepress-main">
         <main className="vitepress-content">

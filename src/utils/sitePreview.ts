@@ -1,6 +1,6 @@
 import { getPublicFilePath } from './prefix'
 
-export const DEFAULT_PREVIEW_PATH = '/background.webp'
+export const DEFAULT_PREVIEW_PATH = '/background.jpg'
 
 export function getDefaultPreviewUrl() {
   return getPublicFilePath(DEFAULT_PREVIEW_PATH)

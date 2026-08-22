@@ -1,7 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { APP_CONFIG } from './config/app'
+import { preloadFabIcons } from './config/preloadFabIcons'
 import { App } from './App'
+
+preloadFabIcons()
 import 'lxgw-wenkai-webfont/style.css'
 import './styles/main.css'
 

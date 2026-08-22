@@ -4,14 +4,26 @@ import { APP_CONFIG } from '../config/app'
 import { getAppPath, getPublicFilePath } from '../utils/prefix'
 
 interface SiteHeaderProps {
-  isDark: boolean
+  title?: string
+  isDark?: boolean
+  showSearch?: boolean
+  showNav?: boolean
   navEnabled?: boolean
-  onOpenSearch: () => void
-  onToggleTheme: () => void
+  onOpenSearch?: () => void
+  onToggleTheme?: () => void
   onOpenNav?: () => void
 }
 
-export function SiteHeader({ isDark, navEnabled = true, onOpenSearch, onToggleTheme, onOpenNav }: SiteHeaderProps) {
+export function SiteHeader({
+  title,
+  isDark = false,
+  showSearch = true,
+  showNav = true,
+  navEnabled = true,
+  onOpenSearch,
+  onToggleTheme,
+  onOpenNav,
+}: SiteHeaderProps) {
   function releaseNavButtonFocus(event: React.PointerEvent<HTMLButtonElement>) {
     event.currentTarget.blur()
   }
@@ -26,52 +38,48 @@ export function SiteHeader({ isDark, navEnabled = true, onOpenSearch, onToggleTh
   }
 
   return (
-    <header id="main-header" className="main-header">
-      <div className="header-scrolled-filter">
-        <div className="app-layout">
-          <div className="top-nav-wrap">
-            <div className="header-floating-left">
-              <a className="header-brand-link" href={getAppPath('/')} aria-label={APP_CONFIG.SITE_NAME}>
-                <img className="header-brand-logo" src={getPublicFilePath(APP_CONFIG.SITE_LOGO)} alt="" width="32" height="32" />
-                <span className="header-brand-name">{APP_CONFIG.SITE_NAME}</span>
-              </a>
-            </div>
+    <header id="main-header" className="site-top-header">
+      <div className="header-glass top-nav-wrap">
+        <a className="header-brand" href={getAppPath('/')} aria-label={APP_CONFIG.SITE_NAME}>
+          <img className="header-logo" src={getPublicFilePath(APP_CONFIG.SITE_LOGO)} alt="" width="32" height="32" />
+          <span className="logo">{title ?? APP_CONFIG.SITE_NAME}</span>
+        </a>
 
-            <nav className="header-floating-right" aria-label="站点操作">
-              <button
-                type="button"
-                className="nav-icon-btn"
-                aria-label="搜索"
-                title="搜索"
-                onClick={handleNavClick(onOpenSearch)}
-                onPointerUp={releaseNavButtonFocus}
-              >
-                <Icon icon={FAB_ICONS.search} className="nav-icon-btn__icon" />
-              </button>
-              {navEnabled && onOpenNav && (
-                <button
-                  type="button"
-                  className="nav-icon-btn nav-icon-btn--nav"
-                  aria-label="目录导航"
-                  title="目录导航"
-                  onClick={handleNavClick(onOpenNav)}
-                  onPointerUp={releaseNavButtonFocus}
-                >
-                  <Icon icon={FAB_ICONS.nav} className="nav-icon-btn__icon" />
-                </button>
-              )}
-              <button
-                type="button"
-                className="nav-icon-btn"
-                aria-label={isDark ? '切换到亮色模式' : '切换到暗色模式'}
-                title={isDark ? '切换到亮色模式' : '切换到暗色模式'}
-                onClick={handleNavClick(onToggleTheme)}
-                onPointerUp={releaseNavButtonFocus}
-              >
-                <Icon icon={isDark ? FAB_ICONS.themeLight : FAB_ICONS.themeDark} className="nav-icon-btn__icon" />
-              </button>
-            </nav>
-          </div>
+        <div className="header-nav" role="group" aria-label="站点操作">
+          {showSearch && (
+            <button
+              type="button"
+              className="nav-icon-btn"
+              aria-label="搜索"
+              title="搜索"
+              onClick={handleNavClick(onOpenSearch ?? (() => undefined))}
+              onPointerUp={releaseNavButtonFocus}
+            >
+              <Icon icon={FAB_ICONS.search} className="nav-icon-btn__icon" />
+            </button>
+          )}
+          {showNav && navEnabled && onOpenNav && (
+            <button
+              type="button"
+              className="nav-icon-btn nav-icon-btn--nav"
+              aria-label="目录导航"
+              title="目录导航"
+              onClick={handleNavClick(onOpenNav)}
+              onPointerUp={releaseNavButtonFocus}
+            >
+              <Icon icon={FAB_ICONS.nav} className="nav-icon-btn__icon" />
+            </button>
+          )}
+          <button
+            type="button"
+            className="nav-icon-btn"
+            aria-label={isDark ? '切换到亮色模式' : '切换到暗色模式'}
+            title={isDark ? '切换到亮色模式' : '切换到暗色模式'}
+            onClick={handleNavClick(onToggleTheme ?? (() => undefined))}
+            onPointerUp={releaseNavButtonFocus}
+          >
+            <Icon icon={isDark ? FAB_ICONS.themeLight : FAB_ICONS.themeDark} className="nav-icon-btn__icon" />
+          </button>
         </div>
       </div>
     </header>

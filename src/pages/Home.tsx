@@ -202,7 +202,7 @@ export function Home({ isDark, onToggleTheme }: HomeProps) {
                   <div className="friend-group-header">
                     <h2 className="friend-group-title">{category.title}</h2>
                     <div className="friend-group-meta">
-                      <p className="friend-group-desc">这里有 {category.menu?.length || 0} 个正在发光的站点</p>
+                      <p className="friend-group-desc">这里有 {category.menu?.length || 0} 个神秘的网站等待探索</p>
                       <span className="friend-group-badge">{category.menu?.length || 0} sites</span>
                     </div>
                   </div>

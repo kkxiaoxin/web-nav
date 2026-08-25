@@ -14,10 +14,16 @@
     "title": "🗂️收藏",
     "menu": [
       {
-        "name": "皮卡丘的音乐站",
-        "logo": "./datas/img/pikachu.gif",
-        "link": "https://kkxiaoxin.github.io/musicsquare/",
-        "desc": "一个在线听歌的网站，支持歌曲下载、收费音乐播放，包含不同平台音源🎵"
+        "name": "动漫共和国",
+        "logo": "./datas/img/dmghg.ico",
+        "link": "https://www.dmghg.app/",
+        "desc": "动漫共和国是一款集在线追番、智能推荐、多端同步于一体的全能型动漫平台。"
+      },
+      {
+        "name": "MSDN镜像资源",
+        "logo": "./datas/img/msdn.ico",
+        "link": "https://msdn.itellyou.cn/",
+        "desc": "个人性质的微软原版软件信息收录站点，提供原版系统镜像及工具等资源，试运行新站点https://next.itellyou.cn"
       },
       {
         "name": "4K壁纸-哲风壁纸",
@@ -30,6 +36,59 @@
         "logo": "./datas/img/wallspic.png",
         "link": "https://wallspic.com/cn",
         "desc": "多风格高清壁纸浏览图库合集🌄"
+      }
+    ]
+  },
+  {
+    "title": "🔥夯爆了软件",
+    "menu": [
+      {
+        "name": "Obsidian",
+        "logo": "./datas/img/obsidian.ico",
+        "link": "https://obsidian.md/",
+        "desc": "本地知识库笔记软件，支持双向链接与插件扩展，数据完全私有。"
+      },
+      {
+        "name": "PotPlayer",
+        "logo": "./datas/img/potplayer.ico",
+        "link": "https://potplayer.tv/",
+        "desc": "全能高清视频播放器，支持格式广，解码强，自定义丰富。"
+      },
+      {
+        "name": "Geek Uninstaller",
+        "logo": "./datas/img/geekuninstaller.ico",
+        "link": "https://geekuninstaller.com/",
+        "desc": "轻量级卸载工具，彻底清除软件残留与注册表，免费便携无广告。"
+      },
+      {
+        "name": "7-zip",
+        "logo": "./datas/img/7-zip.ico",
+        "link": "https://www.7-zip.org/",
+        "desc": "免费开源压缩软件，支持格式广，压缩率高，轻量无广告。"
+      },
+      {
+        "name": "Snipaste",
+        "logo": "./datas/img/snipaste.ico",
+        "link": "https://www.snipaste.com/",
+        "desc": "截图贴图工具，支持标注编辑，可将图片钉在桌面方便参考。"
+      },
+      {
+        "name": "Snow Shot",
+        "logo": "./datas/img/snowshot.png",
+        "link": "https://snowshot.top/",
+        "desc": "Snow Shot 是一款功能完备、依靠开源社区驱动的工具软件，旨在为用户带来简单优雅截图体验。"
+      },
+      {
+        "name": "网易UU远程",
+        "logo": "./datas/img/uuyc.ico",
+        "link": "https://uuyc.163.com/",
+        "desc": "真4K、真免费、真好用。网易资深团队出品，超低延迟的多端远程桌面控制软件。"
+      },
+      {
+        "name": "OBS Studio",
+        "logo": "./datas/img/obsproject.ico",
+        "link": "https://obsproject.com/",
+        "desc": "免费开源直播录屏软件，功能强大，支持多平台推流与高清视频制作。"
       }
     ]
   },
@@ -59,12 +118,6 @@
         "logo": "./datas/img/phototool.jpg",
         "link": "https://phototool.cn/",
         "desc": "在线图片编辑处理与转换工具箱🛠️"
-      },
-      {
-        "name": "Mobaxterm Keygen",
-        "logo": "./datas/img/mobax_keygen.png",
-        "link": "https://moba-xterm-keygen.vercel.app/",
-        "desc": "MobaXterm密钥生成工具，可去除专业版功能限制、人数限制🔑"
       }
     ]
   },

@@ -1,6 +1,8 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import { Icon } from '@iconify/react'
+
 import type { CSSProperties, KeyboardEvent as ReactKeyboardEvent, MouseEvent as ReactMouseEvent } from 'react'
 
 import { createPortal } from 'react-dom'
@@ -666,6 +668,13 @@ export function CardItem({ card, onClick }: CardItemProps) {
     >
 
       <div className="friend-card-glow" aria-hidden="true" />
+
+      {card.star === 1 ? (
+        <span className="card-recommendation-badge" aria-label="推荐" title="推荐">
+          <Icon icon="solar:star-bold" aria-hidden="true" />
+          <span>推荐</span>
+        </span>
+      ) : null}
 
       <span className={`friend-status-tag ${latencyStatusClass}${latencyState === 'pending' ? ' friend-status-tag--pulse' : ''}`} role="status" aria-label={latencyTitle} title={latencyTitle}>
 

@@ -3,6 +3,7 @@ export interface NavCard {
   logo: string
   link: string
   desc?: string
+  star?: number
 }
 
 export interface NavCategory {

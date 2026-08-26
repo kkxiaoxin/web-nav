@@ -17,7 +17,8 @@
         "name": "动漫共和国",
         "logo": "./datas/img/dmghg.ico",
         "link": "https://www.dmghg.app/",
-        "desc": "动漫共和国是一款集在线追番、智能推荐、多端同步于一体的全能型动漫平台。"
+        "desc": "动漫共和国是一款集在线追番、智能推荐、多端同步于一体的全能型动漫平台。",
+        "star": 1
       },
       {
         "name": "MSDN镜像资源",
@@ -29,7 +30,8 @@
         "name": "4K壁纸-哲风壁纸",
         "logo": "./datas/img/zhefengbz.ico",
         "link": "https://haowallpaper.com",
-        "desc": "精选高清4K桌面壁纸资源站🖼️"
+        "desc": "精选高清4K桌面壁纸资源站🖼️",
+        "star": 1
       },
       {
         "name": "Wallspic壁纸",
@@ -70,7 +72,8 @@
         "name": "Snipaste",
         "logo": "./datas/img/snipaste.ico",
         "link": "https://www.snipaste.com/",
-        "desc": "截图贴图工具，支持标注编辑，可将图片钉在桌面方便参考。"
+        "desc": "截图贴图工具，支持标注编辑，可将图片钉在桌面方便参考。",
+        "star": 1
       },
       {
         "name": "Snow Shot",
@@ -128,7 +131,8 @@
         "name": "VPN-三毛机场",
         "logo": "./datas/img/sanmao.ico",
         "link": "https://三毛导航.com",
-        "desc": "三毛机场节点服务与导航入口🚀"
+        "desc": "三毛机场节点服务与导航入口🚀",
+        "star": 1
       },
       {
         "name": "VPN机场汇总导航",

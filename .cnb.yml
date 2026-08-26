@@ -28,7 +28,7 @@ cnb-main:
           imports: https://cnb.cool/koala-open/xiaoxin-blog-data/-/blob/main/env.yml
           settings:
             host:
-              - 115.190.249.148
+              - $SERVER_IP
             username: $LOGIN_USER
             password: $PASSWORD
             port: 22
@@ -46,7 +46,7 @@ cnb-main:
             user: $LOGIN_USER
             password: $PASSWORD
             hosts:
-              - 115.190.249.148
+              - $SERVER_IP
             source: ./dist/
             target: /opt/1panel/www/sites/nav.kkxiaoxin.top/index/xiaoxin/dist/
 
@@ -56,9 +56,9 @@ cnb-main:
           # 引用密钥仓库配置文件
           imports: https://cnb.cool/koala-open/xiaoxin-blog-data/-/blob/main/env.yml
           settings:
-            secret: $dingtalk_secret  # 添加钉钉机器人的签名密钥
-            webhook: $dingtalk_webhook  # 填写钉钉机器人的Webhook地址变量
-            at: "13048667170" # 多个用分号(;)分隔
+            secret: $DINGTALK_SECRET  # 添加钉钉机器人的签名密钥
+            webhook: $DINGTALK_WEBHOOK  # 填写钉钉机器人的Webhook地址变量
+            at: $PHONE_NUMBER # 多个用分号(;)分隔
             isAtAll: false
             debug: true # 新增: 是否启用调试模式
             c_type: "markdown" # 支持: text, markdown, link, actionCard, multiActionCard, feedCard

@@ -1,4 +1,4 @@
-import { ComponentProps, useEffect, useMemo, useRef, useState } from 'react'
+import { ComponentProps, HTMLAttributes, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Icon } from '@iconify/react'
 import ReactMarkdown from 'react-markdown'
@@ -75,6 +75,38 @@ function normalizeMarkdownImage(src: string | undefined, markdownPath: string) {
   const markdownDir = markdownPath.split('/').slice(0, -1).join('/')
   const resolvedPath = new URL(src, `https://local${markdownDir}/`).pathname
   return getPublicFilePath(resolvedPath)
+}
+
+type MarkdownHeadingProps = HTMLAttributes<HTMLHeadingElement> & { node?: unknown }
+type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+
+function MarkdownHeading({ level, children, node: _node, ...props }: MarkdownHeadingProps & { level: HeadingLevel }) {
+  const Heading = level
+  return <Heading {...props}><Icon className="markdown-heading-icon" icon="fa7-solid:book" aria-hidden="true" />{children}</Heading>
+}
+
+function MarkdownH1(props: MarkdownHeadingProps) {
+  return <MarkdownHeading level="h1" {...props} />
+}
+
+function MarkdownH2(props: MarkdownHeadingProps) {
+  return <MarkdownHeading level="h2" {...props} />
+}
+
+function MarkdownH3(props: MarkdownHeadingProps) {
+  return <MarkdownHeading level="h3" {...props} />
+}
+
+function MarkdownH4(props: MarkdownHeadingProps) {
+  return <MarkdownHeading level="h4" {...props} />
+}
+
+function MarkdownH5(props: MarkdownHeadingProps) {
+  return <MarkdownHeading level="h5" {...props} />
+}
+
+function MarkdownH6(props: MarkdownHeadingProps) {
+  return <MarkdownHeading level="h6" {...props} />
 }
 
 function CodeCopyButton({ codeText }: { codeText: string }) {
@@ -211,24 +243,12 @@ export function MarkdownViewer({ path, isDark, onToggleTheme }: MarkdownViewerPr
   }
 
   const components: ComponentProps<typeof ReactMarkdown>['components'] = {
-    h1({ children, ...props }) {
-      return <h1 {...props}><Icon className="markdown-heading-icon" icon="fa7-solid:book" aria-hidden="true" />{children}</h1>
-    },
-    h2({ children, ...props }) {
-      return <h2 {...props}><Icon className="markdown-heading-icon" icon="fa7-solid:book" aria-hidden="true" />{children}</h2>
-    },
-    h3({ children, ...props }) {
-      return <h3 {...props}><Icon className="markdown-heading-icon" icon="fa7-solid:book" aria-hidden="true" />{children}</h3>
-    },
-    h4({ children, ...props }) {
-      return <h4 {...props}><Icon className="markdown-heading-icon" icon="fa7-solid:book" aria-hidden="true" />{children}</h4>
-    },
-    h5({ children, ...props }) {
-      return <h5 {...props}><Icon className="markdown-heading-icon" icon="fa7-solid:book" aria-hidden="true" />{children}</h5>
-    },
-    h6({ children, ...props }) {
-      return <h6 {...props}><Icon className="markdown-heading-icon" icon="fa7-solid:book" aria-hidden="true" />{children}</h6>
-    },
+    h1: MarkdownH1,
+    h2: MarkdownH2,
+    h3: MarkdownH3,
+    h4: MarkdownH4,
+    h5: MarkdownH5,
+    h6: MarkdownH6,
     img({ src, alt }) {
       return <img src={normalizeMarkdownImage(src, markdownPath)} alt={alt || ''} />
     },

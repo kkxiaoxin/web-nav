@@ -1,5 +1,6 @@
 import { ComponentProps, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { Icon } from '@iconify/react'
 import ReactMarkdown from 'react-markdown'
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
 import bash from 'react-syntax-highlighter/dist/esm/languages/hljs/bash'
@@ -210,6 +211,24 @@ export function MarkdownViewer({ path, isDark, onToggleTheme }: MarkdownViewerPr
   }
 
   const components: ComponentProps<typeof ReactMarkdown>['components'] = {
+    h1({ children, ...props }) {
+      return <h1 {...props}><Icon className="markdown-heading-icon" icon="fa7-solid:book" aria-hidden="true" />{children}</h1>
+    },
+    h2({ children, ...props }) {
+      return <h2 {...props}><Icon className="markdown-heading-icon" icon="fa7-solid:book" aria-hidden="true" />{children}</h2>
+    },
+    h3({ children, ...props }) {
+      return <h3 {...props}><Icon className="markdown-heading-icon" icon="fa7-solid:book" aria-hidden="true" />{children}</h3>
+    },
+    h4({ children, ...props }) {
+      return <h4 {...props}><Icon className="markdown-heading-icon" icon="fa7-solid:book" aria-hidden="true" />{children}</h4>
+    },
+    h5({ children, ...props }) {
+      return <h5 {...props}><Icon className="markdown-heading-icon" icon="fa7-solid:book" aria-hidden="true" />{children}</h5>
+    },
+    h6({ children, ...props }) {
+      return <h6 {...props}><Icon className="markdown-heading-icon" icon="fa7-solid:book" aria-hidden="true" />{children}</h6>
+    },
     img({ src, alt }) {
       return <img src={normalizeMarkdownImage(src, markdownPath)} alt={alt || ''} />
     },

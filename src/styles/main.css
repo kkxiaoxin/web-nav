@@ -2284,6 +2284,16 @@ html.theme-dark .search-engine-option:hover,
   font-family: var(--display-font);
 }
 
+.markdown-body .markdown-heading-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.38em;
+  color: var(--doc-link);
+  vertical-align: -0.08em;
+  flex-shrink: 0;
+}
+
 .markdown-body h1,
 .markdown-body h2,
 .markdown-body h3 {

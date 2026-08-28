@@ -9,6 +9,8 @@ import { createPortal } from 'react-dom'
 
 import type { NavCard } from '../types'
 
+import { APP_CONFIG } from '../config/app'
+
 import { copyText } from '../utils/clipboard'
 
 import { getPublicFilePath } from '../utils/prefix'
@@ -318,6 +320,8 @@ export function CardItem({ card, onClick }: CardItemProps) {
 
 
   useEffect(() => {
+
+    if (APP_CONFIG.SITE_LATENCY !== 1) return
 
     let cancelled = false
 
@@ -676,11 +680,13 @@ export function CardItem({ card, onClick }: CardItemProps) {
         </span>
       ) : null}
 
-      <span className={`friend-status-tag ${latencyStatusClass}${latencyState === 'pending' ? ' friend-status-tag--pulse' : ''}`} role="status" aria-label={latencyTitle} title={latencyTitle}>
+      {APP_CONFIG.SITE_LATENCY === 1 ? (
+        <span className={`friend-status-tag ${latencyStatusClass}${latencyState === 'pending' ? ' friend-status-tag--pulse' : ''}`} role="status" aria-label={latencyTitle} title={latencyTitle}>
 
-        {latencyStatusLabel}
+          {latencyStatusLabel}
 
-      </span>
+        </span>
+      ) : null}
 
       <div className="friend-body">
 

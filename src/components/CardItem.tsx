@@ -673,7 +673,7 @@ export function CardItem({ card, onClick }: CardItemProps) {
 
       <div className="friend-card-glow" aria-hidden="true" />
 
-      {card.star === 1 ? (
+      {card.star === 1 && APP_CONFIG.SHOW_RECOMMEND === 1 ? (
         <span className="card-recommendation-badge" aria-label="推荐" title="推荐">
           <Icon icon="solar:star-bold" aria-hidden="true" />
           <span>推荐</span>

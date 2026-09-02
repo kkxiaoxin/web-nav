@@ -7,6 +7,12 @@
         "logo": "./datas/img/essay.jpg",
         "link": "./datas/markdown/essay/essay.md",
         "desc": "一个markdown文档，随便记录点啥放这儿✨"
+      },
+      {
+        "name": "禁用Windows更新",
+        "logo": "./datas/img/wub.png",
+        "link": "./datas/markdown/wub/wub.md",
+        "desc": "Windows Update Blocker是一款简单实用的工具，只需一键即可“完全禁用”或“重新启用”Windows更新及相关服务。"
       }
     ]
   },

@@ -195,6 +195,8 @@ export function CardItem({ card, onClick }: CardItemProps) {
 
   const displayLink = card.link.replace(/^https?:\/\//i, '').replace(/^\.\/?/, '')
 
+  const isDocLink = card.link.trim().toLowerCase().endsWith('.md')
+
   const cardDesc = String(card.desc ?? '').trim() || '前方一个神秘的网站等待您的探索🚀'
 
   const latencyStatusClass = getLatencyStatusClass(latencyTier, latencyState)
@@ -720,7 +722,13 @@ export function CardItem({ card, onClick }: CardItemProps) {
 
             <div className="friend-host" title={card.link}>
 
-              {displayLink}
+              <span className="friend-host-icon" aria-hidden="true">
+
+                <Icon icon={isDocLink ? 'ci:file-document' : 'eva:external-link-outline'} />
+
+              </span>
+
+              <span className="friend-host-text">{displayLink}</span>
 
             </div>
 

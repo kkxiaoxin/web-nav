@@ -44,6 +44,12 @@
         "logo": "./datas/img/wallspic.png",
         "link": "https://wallspic.com/cn",
         "desc": "多风格高清壁纸浏览图库合集🌄"
+      },
+      {
+        "name": "ImageFree免费文生图",
+        "logo": "./datas/img/imagefree.png",
+        "link": "https://imagefree.net/zh",
+        "desc": "ImageFree.net 是一款完全免费的 AI 图片生成器，可将文字转换为图片。无需注册、积分或账号。"
       }
     ]
   },

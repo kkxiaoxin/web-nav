@@ -1,6 +1,6 @@
 import type { NavCategory } from '../types'
 
-export function filterCardsByKeyword(categories: NavCategory[], keyword: string) {
+export function filterCardsByKeyword<T extends NavCategory>(categories: T[], keyword: string): T[] {
   const query = keyword.trim().toLowerCase()
   if (!query || !Array.isArray(categories)) return categories
 

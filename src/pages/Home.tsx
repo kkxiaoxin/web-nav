@@ -22,12 +22,13 @@ import { countCardsInCategories, filterCardsByKeyword } from '../utils/siteSearc
 
 
 
-const categoryBadgeColors = [
-
-  '#5b8def', '#e07c4a', '#4ecdc4', '#c77dff', '#f4a261', '#2ec4b6', '#e76f8a', '#7b9acc', '#84cc16', '#f59e0b',
-
-  '#06b6d4', '#a78bfa', '#fb7185', '#34d399', '#60a5fa', '#f472b6', '#38bdf8', '#fbbf24', '#818cf8', '#2dd4bf'
-
+const categoryAccents = [
+  { light: '#2368d8', dark: '#4a9aef' },
+  { light: '#7550c7', dark: '#9b7bf0' },
+  { light: '#b85718', dark: '#f18a3d' },
+  { light: '#987000', dark: '#d9ad32' },
+  { light: '#137d85', dark: '#34b9bf' },
+  { light: '#557b22', dark: '#8abb49' },
 ]
 
 
@@ -68,7 +69,13 @@ export function Home({ isDark, onToggleTheme }: HomeProps) {
 
 
 
-  const displayCardData = useMemo(() => filterCardsByKeyword(cardData, siteSearchKeyword), [cardData, siteSearchKeyword])
+  const indexedCategories = useMemo(() => cardData.map((category, order) => ({
+    ...category,
+    order,
+    accent: categoryAccents[order % categoryAccents.length][isDark ? 'dark' : 'light'],
+  })), [cardData, isDark])
+
+  const displayCardData = useMemo(() => filterCardsByKeyword(indexedCategories, siteSearchKeyword), [indexedCategories, siteSearchKeyword])
 
   const totalCardCount = countCardsInCategories(displayCardData)
 
@@ -107,14 +114,6 @@ export function Home({ isDark, onToggleTheme }: HomeProps) {
     }
 
     window.open(card.link, '_blank', 'noopener,noreferrer')
-
-  }
-
-
-
-  function getCategoryBadgeStyle(index: number) {
-
-    return { '--category-accent': categoryBadgeColors[index % categoryBadgeColors.length] } as React.CSSProperties
 
   }
 
@@ -167,35 +166,42 @@ export function Home({ isDark, onToggleTheme }: HomeProps) {
 
             <div className="card-grid">
 
-              {displayCardData.map((category, index) => (
+              {displayCardData.map((category, index) => {
+                const { order, accent } = category
 
-                <section key={category.title} id={`nav-category-${index}`} className="friend-group" aria-labelledby={`nav-category-title-${index}`} style={getCategoryBadgeStyle(index)}>
+                return (
 
-                  <div className="friend-group-header">
-                    <h2 id={`nav-category-title-${index}`} className="friend-group-title">{category.title}</h2>
-                    <div className="friend-group-meta">
-                      <p className="friend-group-desc">这里有 {category.menu?.length || 0} 个神秘的网站等待探索</p>
-                      <span className="friend-group-badge">{category.menu?.length || 0} sites</span>
-                    </div>
-                  </div>
+                  <section key={order} id={`nav-category-${index}`} className="friend-group" aria-labelledby={`nav-category-title-${index}`} style={{ '--category-accent': accent } as React.CSSProperties}>
 
-                  <div className="friend-grid">
-
-                    {(category.menu || []).map((item, itemIndex) => (
-
-                      <div key={item.name} id={`nav-item-${index}-${itemIndex}`} className="card-nav-anchor" style={{ '--stagger': itemIndex } as React.CSSProperties}>
-
-                        <CardItem card={item} onClick={handleCardClick} />
-
+                    <div className="friend-group-header">
+                      <h2 id={`nav-category-title-${index}`} className="friend-group-title">
+                        <span className="friend-group-index" aria-hidden="true">{String(order + 1).padStart(2, '0')}</span>
+                        <span>{category.title}</span>
+                      </h2>
+                      <div className="friend-group-meta">
+                        <p className="friend-group-desc">这里有 {category.menu?.length || 0} 个神秘的网站等待探索</p>
+                        <span className="friend-group-badge">{category.menu?.length || 0} sites</span>
                       </div>
+                    </div>
 
-                    ))}
+                    <div className="friend-grid">
 
-                  </div>
+                      {(category.menu || []).map((item, itemIndex) => (
 
-                </section>
+                        <div key={item.name} id={`nav-item-${index}-${itemIndex}`} className="card-nav-anchor" style={{ '--stagger': itemIndex } as React.CSSProperties}>
 
-              ))}
+                          <CardItem card={item} onClick={handleCardClick} />
+
+                        </div>
+
+                      ))}
+
+                    </div>
+
+                  </section>
+
+                )
+              })}
 
             </div>
 

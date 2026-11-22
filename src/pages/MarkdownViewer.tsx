@@ -1,5 +1,4 @@
 import { ComponentProps, HTMLAttributes, useEffect, useMemo, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
 import { Icon } from '@iconify/react'
 import ReactMarkdown from 'react-markdown'
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -20,17 +19,15 @@ import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
-import { MobileOutlineButton } from '../components/MobileOutlineButton'
 import { MarkdownOutline } from '../components/OutlineList'
-import { SiteHeader } from '../components/SiteHeader'
-import type { HeadingItem } from '../types'
+import { PageHero } from '../components/PageHero'
+import { APP_CONFIG } from '../config/app'
+import type { HeadingItem, NavCategory } from '../types'
 import { copyText } from '../utils/clipboard'
 import { getPublicFilePath, isExternalUrl } from '../utils/prefix'
 
 interface MarkdownViewerProps {
   path: string
-  isDark: boolean
-  onToggleTheme: () => void
 }
 
 SyntaxHighlighter.registerLanguage('bash', bash)
@@ -141,14 +138,23 @@ function CodeCopyButton({ codeText }: { codeText: string }) {
   )
 }
 
-export function MarkdownViewer({ path, isDark, onToggleTheme }: MarkdownViewerProps) {
+export function MarkdownViewer({ path }: MarkdownViewerProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [markdownContent, setMarkdownContent] = useState('')
+  const [documentName, setDocumentName] = useState('')
   const [headings, setHeadings] = useState<HeadingItem[]>([])
   const [activeHeadingId, setActiveHeadingId] = useState('')
   const [mobileOutlineOpen, setMobileOutlineOpen] = useState(false)
   const articleRef = useRef<HTMLElement>(null)
+  const displayTitle = documentName || path.split('/').filter(Boolean).pop() || 'Markdown 文档'
+
+  useEffect(() => {
+    document.title = `${displayTitle} · ${APP_CONFIG.TITLE}`
+    return () => {
+      document.title = APP_CONFIG.TITLE
+    }
+  }, [displayTitle])
   const markdownPath = useMemo(() => {
     try {
       return resolveMarkdownPath(path)
@@ -157,7 +163,20 @@ export function MarkdownViewer({ path, isDark, onToggleTheme }: MarkdownViewerPr
     }
   }, [path])
 
-  const docTitle = 'Documentation'
+  useEffect(() => {
+    if (!markdownPath) return
+    const controller = new AbortController()
+    setDocumentName('')
+    fetch(getPublicFilePath('/datas/data.json'), { signal: controller.signal })
+      .then((response) => response.ok ? response.json() as Promise<NavCategory[]> : [])
+      .then((categories) => {
+        const card = categories.flatMap((category) => category.menu ?? [])
+          .find(({ link }) => '/' + link.replace(/^\.?\//, '') === markdownPath)
+        if (!controller.signal.aborted && card) setDocumentName(card.name)
+      })
+      .catch(() => { /* Standalone documents use their filename. */ })
+    return () => controller.abort()
+  }, [markdownPath])
 
   useEffect(() => {
     async function loadMarkdown() {
@@ -215,7 +234,7 @@ export function MarkdownViewer({ path, isDark, onToggleTheme }: MarkdownViewerPr
   useEffect(() => {
     const onWindowScroll = () => {
       if (!headings.length) return
-      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50) {
+      if (window.scrollY > 0 && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50) {
         setActiveHeadingId(headings[headings.length - 1].id)
         return
       }
@@ -223,7 +242,7 @@ export function MarkdownViewer({ path, isDark, onToggleTheme }: MarkdownViewerPr
       for (const heading of headings) {
         const el = document.getElementById(heading.id)
         if (!el) continue
-        if (el.getBoundingClientRect().top <= 120) activeHeading = heading
+        if (el.getBoundingClientRect().top <= 36) activeHeading = heading
         else break
       }
       setActiveHeadingId(activeHeading.id)
@@ -236,10 +255,17 @@ export function MarkdownViewer({ path, isDark, onToggleTheme }: MarkdownViewerPr
   function scrollToHeading(headingId: string) {
     const el = document.getElementById(headingId)
     if (!el) return
-    const targetTop = el.getBoundingClientRect().top + window.scrollY - 100
-    window.scrollTo({ top: targetTop, behavior: 'smooth' })
+    const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+    const jump = () => {
+      el.tabIndex = -1
+      el.focus({ preventScroll: true })
+      el.scrollIntoView({ behavior, block: 'start' })
+    }
     setActiveHeadingId(headingId)
     setMobileOutlineOpen(false)
+    // On mobile the inline directory changes the target's position when it closes.
+    if (mobileOutlineOpen) window.requestAnimationFrame(jump)
+    else jump()
   }
 
   const components: ComponentProps<typeof ReactMarkdown>['components'] = {
@@ -294,52 +320,52 @@ export function MarkdownViewer({ path, isDark, onToggleTheme }: MarkdownViewerPr
     }
   }
 
-  return (
-    <div className={`vitepress-container${mobileOutlineOpen ? ' is-outline-open' : ''}`}>
-      <SiteHeader
-        title={docTitle}
-        isDark={isDark}
-        showSearch={false}
-        showNav={false}
-        onToggleTheme={onToggleTheme}
-      />
+  const hasOutline = !loading && !error && headings.length > 0
 
-      <div className="vitepress-main">
-        <main className="vitepress-content">
+  return (
+    <div className="vitepress-container">
+      <div className="app-layout doc-hero">
+        <PageHero linkToHome description="🍃 Markdown Documentation 🎯" />
+      </div>
+
+      <div className={'app-layout vitepress-main' + (hasOutline ? ' has-outline' : '')}>
+        <div className="doc-titlebar">
+          <h1 id="doc-title" className="doc-titlebar__title">{displayTitle}</h1>
+          {hasOutline && (
+            <button
+              className="doc-outline-trigger"
+              type="button"
+              aria-controls="doc-outline"
+              aria-expanded={mobileOutlineOpen}
+              onClick={() => setMobileOutlineOpen((open) => !open)}
+            >
+              目录
+            </button>
+          )}
+        </div>
+
+        {hasOutline && (
+          <div id="doc-outline" className={'outline-anchor' + (mobileOutlineOpen ? ' is-open' : '')}>
+            <MarkdownOutline headings={headings} activeHeadingId={activeHeadingId} onSelect={scrollToHeading} />
+          </div>
+        )}
+
+        <main className="vitepress-content" aria-labelledby="doc-title">
           {loading ? (
-            <div className="loading-state glass-panel">
-              <div className="spinner"></div>
+            <div className="loading-state" role="status">
+              <div className="spinner" aria-hidden="true" />
               <p>加载中...</p>
             </div>
           ) : error ? (
-            <div className="error-state glass-panel">
-              <p>{error}</p>
-            </div>
+            <div className="error-state" role="alert"><p>{error}</p></div>
           ) : (
-            <div className="content-wrapper glass-panel">
-              <article ref={articleRef} className="vitepress-doc markdown-body">
-                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw, rehypeSanitize]} components={components}>
-                  {markdownContent}
-                </ReactMarkdown>
-              </article>
-              <div className="doc-footer">
-                <div className="prev-next"></div>
-              </div>
-            </div>
+            <article ref={articleRef} className="vitepress-doc markdown-body">
+              <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw, rehypeSanitize]} components={components}>
+                {markdownContent}
+              </ReactMarkdown>
+            </article>
           )}
         </main>
-
-        {!loading && !error && headings.length > 0 && !mobileOutlineOpen && <MobileOutlineButton positionKey="markdown" onOpen={() => setMobileOutlineOpen(true)} />}
-        <div className="outline-anchor">
-          {!mobileOutlineOpen && <MarkdownOutline headings={headings} activeHeadingId={activeHeadingId} open={false} onClose={() => setMobileOutlineOpen(false)} onSelect={scrollToHeading} />}
-        </div>
-        {mobileOutlineOpen && createPortal(
-          <>
-            <div className="mobile-outline-mask" onClick={() => setMobileOutlineOpen(false)}></div>
-            <MarkdownOutline headings={headings} activeHeadingId={activeHeadingId} open onClose={() => setMobileOutlineOpen(false)} onSelect={scrollToHeading} />
-          </>,
-          document.body,
-        )}
       </div>
     </div>
   )

@@ -60,7 +60,7 @@ export function App() {
     <div id="app" className={isDark ? 'app--dark' : ''} style={appStyle}>
       <SiteBackdrop />
       {route.name === 'markdown' ? (
-        <MarkdownViewer path={route.path} isDark={isDark} onToggleTheme={toggleTheme} />
+        <MarkdownViewer path={route.path} />
       ) : route.name === 'home' ? (
         <Home isDark={isDark} onToggleTheme={toggleTheme} />
       ) : (

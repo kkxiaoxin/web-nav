@@ -4,12 +4,10 @@ import type { HeadingItem, NavCategory } from '../types'
 interface MarkdownOutlineProps {
   headings: HeadingItem[]
   activeHeadingId?: string
-  open?: boolean
-  onClose: () => void
   onSelect: (headingId: string) => void
 }
 
-export function MarkdownOutline({ headings, activeHeadingId = '', open = false, onClose, onSelect }: MarkdownOutlineProps) {
+export function MarkdownOutline({ headings, activeHeadingId = '', onSelect }: MarkdownOutlineProps) {
   const [collapsedHeadingIds, setCollapsedHeadingIds] = useState<string[]>([])
 
   const visibleHeadings = useMemo(() => {
@@ -56,8 +54,8 @@ export function MarkdownOutline({ headings, activeHeadingId = '', open = false, 
   }
 
   return (
-    <aside className={`vitepress-sidebar-outline${open ? ' open' : ''}`}>
-      <nav className="outline-nav">
+    <aside className="vitepress-sidebar-outline">
+      <nav className="outline-nav" aria-label="文档目录">
         <div className="outline-header">
           <div className="outline-title">目录</div>
           {hasExpandableHeadings && (
@@ -65,7 +63,6 @@ export function MarkdownOutline({ headings, activeHeadingId = '', open = false, 
               {isAnyHeadingExpanded ? '折叠' : '展开'}
             </button>
           )}
-          <button className="mobile-outline-close" type="button" aria-label="关闭目录" title="关闭目录" onClick={onClose}></button>
         </div>
         {headings.length ? (
           <ul className="outline-list">
@@ -83,6 +80,7 @@ export function MarkdownOutline({ headings, activeHeadingId = '', open = false, 
                         type="button"
                         aria-label={collapsed ? '展开子标题' : '折叠子标题'}
                         title={collapsed ? '展开子标题' : '折叠子标题'}
+                        aria-expanded={!collapsed}
                         onClick={() => toggleHeading(heading.id)}
                       >
                         <span className={`outline-toggle-icon${collapsed ? ' collapsed' : ''}`}></span>
@@ -90,7 +88,7 @@ export function MarkdownOutline({ headings, activeHeadingId = '', open = false, 
                     ) : (
                       <span className="outline-toggle-spacer"></span>
                     )}
-                    <a href={`#${heading.id}`} className="outline-link" title={heading.text} onClick={(event) => {
+                    <a href={`#${heading.id}`} className="outline-link" title={heading.text} aria-current={activeHeadingId === heading.id ? 'location' : undefined} onClick={(event) => {
                       event.preventDefault()
                       onSelect(heading.id)
                     }}>

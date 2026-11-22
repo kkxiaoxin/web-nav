@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import { APP_CONFIG } from '../config/app'
-
 import { CardItem } from '../components/CardItem'
 
 import { FloatingBlock } from '../components/FloatingBlock'
@@ -12,7 +10,9 @@ import { HomeNavOutline } from '../components/OutlineList'
 
 import { SearchDialog } from '../components/SearchDialog'
 
-import { SiteHeader } from '../components/SiteHeader'
+import { HomeHeader } from '../components/HomeHeader'
+
+import { HomeCategoryNav } from '../components/HomeCategoryNav'
 
 import type { NavCard, NavCategory } from '../types'
 
@@ -78,15 +78,15 @@ export function Home({ isDark, onToggleTheme }: HomeProps) {
 
 
 
-  function scrollToNav(navId: string) {
+  function scrollToNav(navId: string, behavior: ScrollBehavior = 'smooth') {
 
     const element = document.getElementById(navId)
 
     if (!element) return
 
-    const targetTop = element.getBoundingClientRect().top + window.scrollY - 120
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    window.scrollTo({ top: targetTop, behavior: 'smooth' })
+    element.scrollIntoView({ behavior: reduceMotion ? 'instant' : behavior, block: 'start' })
 
     setNavOutlineOpen(false)
 
@@ -124,40 +124,12 @@ export function Home({ isDark, onToggleTheme }: HomeProps) {
 
     <div className="home-container">
 
-      <SiteHeader
-
-        isDark={isDark}
-
-        navEnabled={displayCardData.length > 0}
-
-        onOpenSearch={() => setSearchDialogOpen(true)}
-
-        onToggleTheme={onToggleTheme}
-
-        onOpenNav={() => setNavOutlineOpen(true)}
-
-      />
-
-
-
       <div className="app-layout home-layout">
         <div className="home-main">
-          {(APP_CONFIG.SITE_DESCRIPTION || totalCardCount > 0) && (
-            <section className="page-hero" aria-label="站点概览">
-              <div className="page-hero__lead">
-                <span className="page-hero__accent" aria-hidden="true" />
-                {APP_CONFIG.SITE_DESCRIPTION && <p className="page-hero__desc">{APP_CONFIG.SITE_DESCRIPTION}</p>}
-              </div>
-              {totalCardCount > 0 && (
-                <div className="page-hero__badges">
-                  <span className="hero-badge">{displayCardData.length} 分类</span>
-                  <span className="hero-badge">{totalCardCount} 站点</span>
-                </div>
-              )}
-            </section>
-          )}
+          <HomeHeader categoryCount={displayCardData.length} siteCount={totalCardCount} onOpenSearch={() => setSearchDialogOpen(true)} />
 
           <main className="main-content">
+            <HomeCategoryNav categories={displayCardData} onSelect={(navId) => scrollToNav(navId, 'instant')} />
 
             {isSiteSearchActive && (
 
@@ -197,10 +169,10 @@ export function Home({ isDark, onToggleTheme }: HomeProps) {
 
               {displayCardData.map((category, index) => (
 
-                <section key={category.title} id={`nav-category-${index}`} className="friend-group" style={getCategoryBadgeStyle(index)}>
+                <section key={category.title} id={`nav-category-${index}`} className="friend-group" aria-labelledby={`nav-category-title-${index}`} style={getCategoryBadgeStyle(index)}>
 
                   <div className="friend-group-header">
-                    <h2 className="friend-group-title">{category.title}</h2>
+                    <h2 id={`nav-category-title-${index}`} className="friend-group-title">{category.title}</h2>
                     <div className="friend-group-meta">
                       <p className="friend-group-desc">这里有 {category.menu?.length || 0} 个神秘的网站等待探索</p>
                       <span className="friend-group-badge">{category.menu?.length || 0} sites</span>
